@@ -1,3 +1,1 @@
-# CARD PAYMENT PROCESSOR
 
-# Architecture
