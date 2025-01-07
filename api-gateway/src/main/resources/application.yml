@@ -4,3 +4,44 @@ server:
 spring:
   application:
     name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: payment-authorization
+          uri: lb://payment-authorization
+          predicates:
+            - Path=/api/v1/authorize/**
+          filters:
+            - AddRequestHeader=X-Request-Foo, Bar
+
+        - id: payment-capture
+          uri: lb://payment-capture
+          predicates:
+            - Path=/api/v1/capture/**
+          filters:
+            - AddRequestHeader=X-Request-Foo, Bar
+
+        - id: payment-dispute
+          uri: lb://payment-dispute
+          predicates:
+            - Path=/api/v1/dispute/**
+          filters:
+            - AddRequestHeader=X-Request-Foo, Bar
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
