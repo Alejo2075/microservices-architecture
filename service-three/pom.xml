@@ -9,6 +9,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>payment-authorization</artifactId>
+    <artifactId>service-three</artifactId>
 
 </project>
