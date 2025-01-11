@@ -3,9 +3,49 @@ services:
 
   # INFRASTRUCTURE SERVICES
 
+  ### Discovery Server
+  discovery-server:
+    build:
+      context: ./discovery-server
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+
+  ### Api Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery-server
+
+  ### Config Server
+  config-server:
+    build:
+      context: ./config-server
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - discovery-server
+
   # MICROSERVICES
 
   # DATABASES
+
+  ### MySQL for Keycloak
+  mysql:
+    image: mysql:latest
+    container_name: keycloak-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
 
   # MONITORING, TRACING & LOGGING
 
@@ -71,6 +111,26 @@ services:
 
   # OTHER TOOLS
 
+  ### Apache Kafka
+
   ### Keycloak
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    environment:
+      DB_VENDOR: mysql
+      DB_ADDR: mysql
+      DB_PORT: 3306
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: keycloakpassword
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: adminpassword
+    command: start-dev
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql
 
   ### Jenkins
+

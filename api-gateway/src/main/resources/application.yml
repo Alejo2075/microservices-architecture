@@ -17,6 +17,12 @@ spring:
           predicates:
             - Path=/api/v1/authorize/**
 
+  security:
+    oauth2:
+      resource server:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/microservices
+
   sleuth:
     sampler:
       probability: 1.0

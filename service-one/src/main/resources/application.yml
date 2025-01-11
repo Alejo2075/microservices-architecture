@@ -5,6 +5,12 @@ spring:
   application:
     name: service-one
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/microservices
+
 
 eureka:
   client:
