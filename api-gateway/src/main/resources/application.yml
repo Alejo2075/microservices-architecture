@@ -17,6 +17,22 @@ spring:
           predicates:
             - Path=/api/v1/authorize/**
 
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://localhost:9411
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    enable:
+      all: true
+
+
 eureka:
   client:
     service-url:
@@ -24,3 +40,5 @@ eureka:
 
 server:
   port: 8080
+
+
