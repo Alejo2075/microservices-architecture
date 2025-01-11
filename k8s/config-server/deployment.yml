@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-server
+  template:
+    metadata:
+      labels:
+        app: config-server
+    spec:
+      containers:
+        - name: config-server
+          image: config-server:latest
+          ports:
+            - containerPort: 8888
+          env:
+            - name: GIT_REPO_URL
+              value: https://github.com/tu-repo-config
+            - name: DISCOVERY_SERVER_URL
+              value: http://discovery-server:8761/eureka/
